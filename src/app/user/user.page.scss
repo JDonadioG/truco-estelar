@@ -9,9 +9,14 @@
 .avatar {
   height: 40%;
   .img {
-    padding-top: 10px;
     text-align: center;
-    font-size: 6rem;
+  }
+  img {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    max-width: 125px;
+    max-height: 125px;
+    border-radius: 50%;
     color: whitesmoke;
   }
   .alias {

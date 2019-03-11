@@ -4,12 +4,12 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-buttons slot="primary">
-      <label class="custom-file-upload" *ngIf="!photoURL">
+      <label class="custom-file-upload" *ngIf="!imageLoaded">
         <ion-icon slot="icon-only" name="images">
           <input type="file" accept="image/*" capture="camera" (change)="loadPhoto($event)" />
         </ion-icon>
       </label>
-      <ion-button (click)="uploadPhoto()" *ngIf="photoURL"><ion-icon name="checkmark"></ion-icon></ion-button>
+      <ion-button (click)="uploadPhoto()" *ngIf="imageLoaded"><ion-icon name="checkmark"></ion-icon></ion-button>
     </ion-buttons>
     <ion-title>
       Detalle de Jugador
