@@ -7,4 +7,13 @@ export class GLOBAL {
     storageBucket: "truco-estelar.appspot.com",
     messagingSenderId: "20126869547"
   };
+
+  static firebaseconfigTest = {
+    apiKey: "AIzaSyDhBL2aEWINvZ5a_Y9FnAsWL4MZGR7rG8U",
+    authDomain: "truco-estelar-test.firebaseapp.com",
+    databaseURL: "https://truco-estelar-test.firebaseio.com",
+    projectId: "truco-estelar-test",
+    storageBucket: "truco-estelar-test.appspot.com",
+    messagingSenderId: "188997080345"
+  };
 }
