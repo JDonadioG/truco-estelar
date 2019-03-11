@@ -61,9 +61,10 @@ export class GamePage implements OnInit {
   }
   
   shuffle() {
+    var limit = this.isSixth ? 3 : 2;
     this.selectedUsers = _.shuffle(this.selectedUsers);
-    this.firstTeam = _.slice(this.selectedUsers, 0, 3);
-    this.secondTeam = _.slice(this.selectedUsers, 3);
+    this.firstTeam = _.slice(this.selectedUsers, 0, limit);
+    this.secondTeam = _.slice(this.selectedUsers, limit);
   }
 
   remove(user) {

@@ -11,11 +11,11 @@ import * as _ from 'lodash';
 })
 export class UserPage implements OnInit {
 
-  user: any;
-  rankingUrl: string;
-  record: any;
-  photo: any;
-  private photoURL: any;
+  public user: any;
+  public rankingUrl: string;
+  public record: any;
+  public photo: any;
+  public photoURL: any;
 
   constructor(
     private sharingService: SharingService,
