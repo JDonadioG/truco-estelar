@@ -1,0 +1,16 @@
+.create {
+  display: flex;
+  justify-content: space-between;
+  height: 20%;
+  .item-left {
+    margin: auto auto auto 20px;
+  }
+  .item-right {
+    margin: auto 20px auto;
+  }
+}
+.score {
+  color: darkgrey;
+  font-weight: 500;
+  font-size: 14px;
+}

@@ -1,0 +1,7 @@
+{
+  "name": "truco-estelar",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}

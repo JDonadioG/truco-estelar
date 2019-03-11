@@ -1,0 +1,59 @@
+.game-type {
+  display: flex;
+  justify-content: space-around;
+  height: 25%;
+  margin-top: 15px;
+  ion-img {
+    width: 60px;
+    margin: 10px auto;
+  }
+  .cuarter, .sixth {
+    align-self: center;
+    width: 40%;
+    padding: 2%;
+    text-align: center;
+    ion-label {
+      margin-bottom: 5px;
+      color: gray;
+    }
+  }
+}
+.user-grid {
+  margin-top: 15%;
+  ion-row {
+    justify-content: center;
+  }
+  .user {
+    margin: 5px;
+    border: 1px dashed var(--ion-color-primary);
+  }
+  .selected {
+    background-color: #b3b3b3ab;
+    border: 1px solid #b3b3b3ab;
+    color: darkgrey;
+  }
+  .team {
+    color: var(--ion-color-primary);
+  }
+}
+.shuffle {
+  text-align: center;
+  ion-button {
+    height: 80px;
+    ion-img {
+      width: 80px;
+    }
+  }
+}
+.selected {
+  ion-label {
+    color: var(--ion-color-primary) !important;
+  }
+  font-weight: 500;
+  border-bottom: 2px solid var(--ion-color-primary);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border-radius: 5px;
+}
+.footer:before {
+  height: auto;
+}

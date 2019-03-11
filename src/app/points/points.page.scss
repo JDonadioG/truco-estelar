@@ -1,0 +1,46 @@
+.headers {
+  margin-top: 5%;
+  margin-bottom: 10%;
+  color: var(--ion-color-primary);
+  font-weight: 500;
+  .team {
+    font-size: 12px;
+    color: darkgray;
+  }
+}
+.points {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  display: flex;
+  align-items: center;
+  &-container {
+    width: 100%;
+    height: 50%;
+    text-align: center;
+    display: grid;
+  }
+  &-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+}
+.vl {
+  border-left: 1px solid lightgray;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 50%;
+}
+.hl {
+  border-bottom: 1px solid lightgray;
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 0;
+}
+.is-sixth {
+  height: 65%;
+}

@@ -1,0 +1,68 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="primary" *ngIf="isSixth && selectedUsers.length == 6 || !isSixth && selectedUsers.length == 4">
+      <ion-button (click)="next()">
+        <ion-icon slot="icon-only" name="arrow-forward"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>
+      Crear mesa
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <div class="game-type">
+    <div class="cuarter" [ngClass]="{'selected': !isSixth}" (click)="select()">
+      <ion-label>Cuarto</ion-label>
+      <ion-img src="assets/icon/4-stars.jpg"></ion-img>
+    </div>
+    <div class="sixth" [ngClass]="{'selected': isSixth}" (click)="select(true)">
+      <ion-label>Sexto</ion-label>
+      <ion-img src="assets/icon/6-stars.jpg"></ion-img>
+    </div>
+  </div>
+
+  <div class="user-grid">
+    <ion-grid>
+      <ion-row>
+        <div class="team" *ngIf="firstTeam && firstTeam[0]">Nosotros</div>
+      </ion-row>
+      <ion-row>
+        <ion-col text-center [size]="isSixth ? 3 : 5" class="user" *ngFor="let ftUser of firstTeam" 
+          (click)="remove(ftUser)">{{ftUser.alias}}
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <div class="team" *ngIf="secondTeam && secondTeam[0]">Ellos</div>
+      </ion-row>
+      <ion-row>
+        <ion-col text-center [size]="isSixth ? 3 : 5" class="user" *ngFor="let stUser of secondTeam" 
+          (click)="remove(stUser)">{{stUser.alias}}
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <div class="shuffle" [hidden]="isSixth ? !selectedUsers[5] : !selectedUsers[3]">
+    <ion-button fill="clear" (click)="shuffle()"><ion-img src="assets/icon/dados.png"></ion-img></ion-button>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <div class="user-grid">
+    <ion-grid>
+      <ion-row>
+        <ion-col text-center size="3" class="user" [ngClass]="{'selected': enabledFor[u.key]}" 
+          *ngFor="let u of users" (click)="add(u)">{{u.alias}}
+        </ion-col>
+        <ion-col text-center size="3" class="user" (click)="setUserName()">
+          <ion-icon name="person"></ion-icon>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-footer>

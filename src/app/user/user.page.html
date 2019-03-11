@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <label class="custom-file-upload" *ngIf="!photoURL">
+        <ion-icon slot="icon-only" name="images">
+          <input type="file" accept="image/*" capture="camera" (change)="loadPhoto($event)" />
+        </ion-icon>
+      </label>
+      <ion-button (click)="uploadPhoto()" *ngIf="photoURL"><ion-icon name="checkmark"></ion-icon></ion-button>
+    </ion-buttons>
+    <ion-title>
+      Detalle de Jugador
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="avatar">
+    <div class="img">
+      <!-- <ion-icon name="person" (click)="takePhoto()"></ion-icon> -->
+      <img src="{{user.imgURL || photoURL}}" alt="">
+    </div>
+    <!-- <label class="custom-file-upload">
+      <ion-icon name="person"></ion-icon>
+      <input type="file" accept="image/*" capture="camera" (change)="loadPhoto($event)" />
+    </label> -->
+    <div class="alias">
+      <div>{{user.alias}}</div>
+      <div>{{user.score}} puntos</div>
+      <div>{{user.apples}} <ion-icon name="logo-apple"></ion-icon></div>
+    </div>
+    <div class="category" *ngIf="rankingUrl">
+      <ion-img class="rank" [src]="rankingUrl"></ion-img>
+      <div class="rank-str">{{user.category.name}}</div>
+    </div>
+  </div>
+
+  <ion-item *ngIf="!user.history || !user.history[0]">
+    No jugó ningún partido
+  </ion-item>
+
+  <ion-list *ngIf="user.history && user.history[0]">
+    <div class="header-list">
+      <div>Record: <span [ngClass]="{'winners': (record.true || 0) > (record.false || 0), 'losers': (record.true || 0) < (record.false || 0)}">
+        {{(record.true || 0) +'-'+ (record.false || 0)}}</span></div>
+      <div>Balance: <span [ngClass]="{'winners': user.amount > 0, 'losers': user.amount < 0}">${{user.amount}}</span></div>
+    </div>
+
+    <div class="history" *ngFor="let h of user.history.reverse()">
+      <div class="note"><ion-note>{{h.updatedAt | date : 'short'}}</ion-note></div>
+      <div class="info" [ngClass]="{'winners': h.winners}">
+        <div class="game-type">{{h.isSixth ? '4to' : '6to'}}</div>
+        <div class="status">{{h.winners ? 'Ganado' : 'Perdido'}}</div>
+        <div class="score">{{h.score.us}} - {{h.score.them}}</div>
+        <div class="reward" [ngClass]="{'winners': h.reward > 0, 'losers': h.reward < 0}">${{h.reward}}</div>
+      </div>
+    </div>
+  </ion-list>
+</ion-content>

@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Agregar
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <form [formGroup]="userForm">
+    <ion-item>
+      <ion-label position="stacked">Nombre</ion-label>
+      <ion-input type="text" name="name" formControlName="name"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Apellido</ion-label>
+      <ion-input type="text" name="surname" formControlName="surname"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Alias</ion-label>
+      <ion-input type="text" name="alias" formControlName="alias"></ion-input>
+    </ion-item>
+  </form>
+  <!-- <ion-item>
+    <ion-label position="stacked">Categoría</ion-label>
+    <ion-select placeholder="Seleccionar categoría" name="category" [(ngModel)]="selectedCategory">
+      <div *ngFor="let c of categories">
+        <ion-select-option [value]="c.value">{{c.name}}</ion-select-option>
+      </div>
+    </ion-select>
+  </ion-item> -->
+</ion-content>
+
+<ion-footer>
+  <ion-button class="btn btn-primary" expand="block" type="submit" [disabled]="userForm.invalid" (click)="addUser()" block>Agregar</ion-button>
+</ion-footer>
