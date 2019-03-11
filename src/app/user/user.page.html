@@ -49,11 +49,11 @@
       <div>Balance: <span [ngClass]="{'winners': user.amount > 0, 'losers': user.amount < 0}">${{user.amount}}</span></div>
     </div>
 
-    <div class="history" *ngFor="let h of user.history.reverse()">
-      <div class="note"><ion-note>{{h.updatedAt | date : 'short'}}</ion-note></div>
+    <div class="history" *ngFor="let h of user.history">
+      <div class="note"><ion-note>{{h.updatedAt | date : 'dd/MM/yyyy h:mm a'}}</ion-note></div>
       <div class="info" [ngClass]="{'winners': h.winners}">
-        <div class="game-type">{{h.isSixth ? '4to' : '6to'}}</div>
-        <div class="status">{{h.winners ? 'Ganado' : 'Perdido'}}</div>
+        <div class="game-type">{{h.isSixth ? '6to' : '4to'}}</div>
+        <div class="status">{{h.winners ? 'G' : 'P'}}</div>
         <div class="score">{{h.score.us}} - {{h.score.them}}</div>
         <div class="reward" [ngClass]="{'winners': h.reward > 0, 'losers': h.reward < 0}">${{h.reward}}</div>
       </div>

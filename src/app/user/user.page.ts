@@ -24,6 +24,7 @@ export class UserPage implements OnInit {
   ) {
     this.photoURL = null;
     this.sharingService.currentUser.subscribe(user => {
+      if (user.history) user.history = _.orderBy(user.history, ['updatedAt'], ['desc']);
       this.zone.run(() => {
         this.user = _.clone(user);
         this.rankingUrl = `assets/icon/rank-${user.category.value}.jpg`;

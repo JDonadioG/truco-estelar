@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AlertController, ActionSheetController } from '@ionic/angular';
+import { AlertController, ActionSheetController, LoadingController, ToastController } from '@ionic/angular';
 import { SharingService } from '../services/sharing.service';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Router } from '@angular/router';
@@ -30,6 +30,7 @@ export class PointsPage {
   public counterThem: number;
   public reward: number;
   private users: any;
+  private loading: any;
   private gameEndAlert: any;
   private appleAssignAlert: any;
   private repeatGameAlert: any;
@@ -39,7 +40,9 @@ export class PointsPage {
     private sharingService: SharingService,
     private db: AngularFireDatabase,
     private myRouter: Router,
-    private asCtrl: ActionSheetController
+    private asCtrl: ActionSheetController,
+    private loadingCtrl: LoadingController,
+    private toastCtrl: ToastController
   ) {
     this.init();
   }
@@ -203,6 +206,125 @@ export class PointsPage {
     this.processPointsForThem();
   }
 
+  alertDismiss() {
+    if (this.gameEndAlert) this.gameEndAlert = null;
+    if (this.appleAssignAlert) this.appleAssignAlert = null;
+    if (this.repeatGameAlert) this.repeatGameAlert = null;
+  }
+  
+  async processUserPoints(weWon: boolean) {
+    let points = this.isSixth ? 10 : 5;
+    let limit = this.isSixth ? 3 : 2;
+    let winners;
+    let losers;
+    
+    if (weWon) {
+      winners = _.slice(this.users, 0, limit);
+      losers = _.slice(this.users, limit);
+    } else {
+      losers = _.slice(this.users, 0, limit);
+      winners = _.slice(this.users, limit);
+    }
+    
+    /** Remove dummy users **/
+    _.remove(winners, (u: any) => { return u.type == 'dummy' });
+    _.remove(losers, (u: any) => { return u.type == 'dummy' });
+    
+    let sleepedOut;
+    
+    if (weWon) sleepedOut = this.counterThem <= (this.isSixth ? 15 : 9) ? true : false;
+    else sleepedOut = this.counterUs <= (this.isSixth ? 15 : 9) ? true : false;
+
+    this.loading = await this.loadingCtrl.create({ message: 'Asignando puntos...' });
+    this.loading.present();
+
+    this.updateUsers(winners, losers, { sleepedOut, points })
+      .then(() => {
+        setTimeout(() => {
+          this.loading.dismiss();
+          this.repeatGame();
+          this.showToastMessage('Puntos asignados correctamente.');
+        }, 1000);
+      })
+      .catch(err => { 
+        this.loading.dismiss();
+        this.showToastMessage(err);
+      })
+  }
+ 
+  updateUsers(winners, losers, opts) {
+    return new Promise((resolve, reject) => {
+      _.each(winners, u => {
+        let history = u.history || [];
+        history.push({
+          isSixth: this.isSixth,
+          sleepedOut: opts.sleepedOut,
+          score: { us: this.counterUs, them: this.counterThem },
+          winners: true,
+          reward: this.reward * (opts.sleepedOut ? 2 : 1),
+          updatedAt: _.now()
+        });
+        let score = (u.score + opts.points) + (opts.sleepedOut ? (this.isSixth ? 3 : 1) : 0);
+        let category = categories[this.getCategory(score)];
+        let amount = u.amount ? (u.amount + this.reward * (opts.sleepedOut ? 2 : 1)) : this.reward * (opts.sleepedOut ? 2 : 1);
+        let apples = u.apples ? u.apples : 0;
+        try {
+          this.db.object('users/' + u.key).update({ score, history, category, amount, apples });
+          console.log('Done for winner user ' + u.alias);
+        } catch(err) {
+          console.log(err);
+          return reject(err);
+        }
+      });
+      
+      _.each(losers, u => {
+        let history = u.history || [];
+        history.push({
+          isSixth: this.isSixth,
+          sleepedOut: opts.sleepedOut,
+          score: { us: this.counterUs, them: this.counterThem },
+          winners: false,
+          reward: this.reward * (opts.sleepedOut ? (-2) : (-1)),
+          updatedAt: _.now()
+        });
+        let amount = u.amount ? (u.amount - this.reward * (opts.sleepedOut ? 2 : 1)) : this.reward * (opts.sleepedOut ? (-2) : (-1));
+        let apples = u.apples ? u.apples : 0;
+        try {
+          this.db.object('users/' + u.key).update({ history, amount, apples });
+          console.log('Done for loser user ' + u.alias);
+        } catch(err) {
+          console.log(err);
+          return reject(err);
+        }
+      });
+
+      return resolve();
+    });
+  }
+
+  getCategory(score) {
+    var result;
+
+    if (score < 100) result = 0;
+    if (score >= 100 && score < 200) result = 1;
+    if (score >= 200 && score < 300) result = 2;
+    if (score >= 300 && score < 450) result = 3;
+    if (score >= 450 && score < 600) result = 4;
+    if (score >= 600 && score < 850) result = 5;
+    if (score >= 850 && score < 1000) result = 6;
+    if (score >= 1000) result = 7;
+    
+    return result;
+  }
+
+  async showToastMessage(msg) {
+    const toast = await this.toastCtrl.create({
+      message: msg,
+      duration: 2000
+    });
+    toast.present();
+  }
+
   async showMessage() {
     if (this.gameEndAlert) return;
     
@@ -242,78 +364,6 @@ export class PointsPage {
     await this.gameEndAlert.present();
   }
 
-  alertDismiss() {
-    if (this.gameEndAlert) this.gameEndAlert = null;
-    if (this.appleAssignAlert) this.appleAssignAlert = null;
-    if (this.repeatGameAlert) this.repeatGameAlert = null;
-  }
-
-  processUserPoints(weWon: boolean) {
-    let points = this.isSixth ? 10 : 5;
-    let limit = this.isSixth ? 3 : 2;
-    let winners;
-    let losers;
-
-    if (weWon) {
-      winners = _.slice(this.users, 0, limit);
-      losers = _.slice(this.users, limit);
-    } else {
-      losers = _.slice(this.users, 0, limit);
-      winners = _.slice(this.users, limit);
-    }
-
-    /** Remove dummy users **/
-    _.remove(winners, (u: any) => { return u.type == 'dummy' });
-    _.remove(losers, (u: any) => { return u.type == 'dummy' });
-
-    let sleepedOut;
-
-    if (weWon) sleepedOut = this.counterThem <= (this.isSixth ? 15 : 9) ? true : false;
-    else sleepedOut = this.counterUs <= (this.isSixth ? 15 : 9) ? true : false;
-
-    _.each(winners, u => {
-      let history = u.history || [];
-      history.push({
-        isSixth: this.isSixth,
-        sleepedOut: sleepedOut,
-        score: { us: this.counterUs, them: this.counterThem },
-        winners: true,
-        reward: this.reward * (sleepedOut ? 2 : 1),
-        updatedAt: _.now()
-      });
-      let score = (u.score + points) + (sleepedOut ? (this.isSixth ? 3 : 1) : 0);
-      let category = categories[this.getCategory(score)];
-      let amount = u.amount ? (u.amount + (this.reward * (sleepedOut ? 2 : 1))) : this.reward * (sleepedOut ? 2 : 1);
-      let apples = u.apples ? u.apples : 0;
-      try {
-        this.db.object('users/' + u.key).update({ score, history, category, amount, apples });
-      } catch(err) {
-        console.log(err);
-      }
-    });
-
-    _.each(losers, u => {
-      let history = u.history || [];
-      history.push({
-        isSixth: this.isSixth,
-        sleepedOut: sleepedOut,
-        score: { us: this.counterUs, them: this.counterThem },
-        winners: false,
-        reward: this.reward * (sleepedOut ? (-2) : (-1)),
-        updatedAt: _.now()
-      });
-      let amount = u.amount ? (u.amount - this.reward * (sleepedOut ? 2 : 1)) : this.reward * (sleepedOut ? (-2) : (-1));
-      let apples = u.apples ? u.apples : 0;
-      try {
-        this.db.object('users/' + u.key).update({ history, amount, apples });
-      } catch(err) {
-        console.log(err);
-      }
-    });
-
-    this.repeatGame();
-  }
-
   async repeatGame() {
     this.repeatGameAlert = await this.alertCtrl.create({
       header: '¿Repetir mesa?',
@@ -340,26 +390,7 @@ export class PointsPage {
     await this.repeatGameAlert.present();
   }
 
-  getCategory(score) {
-    var result;
-
-    if (score < 100) result = 0;
-    if (score >= 100 && score < 200) result = 1;
-    if (score >= 200 && score < 300) result = 2;
-    if (score >= 300 && score < 450) result = 3;
-    if (score >= 450 && score < 600) result = 4;
-    if (score >= 600 && score < 850) result = 5;
-    if (score >= 850 && score < 1000) result = 6;
-    if (score >= 1000) result = 7;
-    
-    return result;
-  }
-
-  settings() {
-    this.openOptions();
-  }
-
-  async openOptions() {
+  async settings() {
     const actionSheet = await this.asCtrl.create({
       buttons: [{
         text: 'Configurar monto',
