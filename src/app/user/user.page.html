@@ -20,13 +20,9 @@
 <ion-content>
   <div class="avatar">
     <div class="img">
-      <!-- <ion-icon name="person" (click)="takePhoto()"></ion-icon> -->
+      <ion-icon name="person" *ngIf="!user.imgURL && !photoURL"></ion-icon>
       <img src="{{user.imgURL || photoURL}}" alt="">
     </div>
-    <!-- <label class="custom-file-upload">
-      <ion-icon name="person"></ion-icon>
-      <input type="file" accept="image/*" capture="camera" (change)="loadPhoto($event)" />
-    </label> -->
     <div class="alias">
       <div>{{user.alias}}</div>
       <div>{{user.score}} puntos</div>
@@ -49,13 +45,24 @@
       <div>Balance: <span [ngClass]="{'winners': user.amount > 0, 'losers': user.amount < 0}">${{user.amount}}</span></div>
     </div>
 
-    <div class="history" *ngFor="let h of user.history">
+    <div class="history" *ngFor="let h of user.history; let i = index" (click)="additionalInfoFor[i] = !additionalInfoFor[i]">
       <div class="note"><ion-note>{{h.updatedAt | date : 'dd/MM/yyyy h:mm a'}}</ion-note></div>
       <div class="info" [ngClass]="{'winners': h.winners}">
         <div class="game-type">{{h.isSixth ? '6to' : '4to'}}</div>
         <div class="status">{{h.winners ? 'G' : 'P'}}</div>
-        <div class="score">{{h.score.us}} - {{h.score.them}}</div>
+        <div class="result">{{h.result.us}} - {{h.result.them}}</div>
         <div class="reward" [ngClass]="{'winners': h.reward > 0, 'losers': h.reward < 0}">${{h.reward}}</div>
+      </div>
+      <div class="additional-info" *ngIf="additionalInfoFor[i]">
+        <div class="users">
+          <div *ngFor="let u of h.users">{{u}}</div>
+        </div>
+        <div class="details">
+          <div>Puntos por mesa: {{h.isSixth ? '10' : '5'}}</div>
+          <div>Durmieron: {{h.sleepedOut ? 'afuera' : 'adentro'}}</div>
+          <div>Plus: {{h.isSixth ? '3' : '1'}}</div>
+          <div>Total: {{h.score}}</div>
+        </div>
       </div>
     </div>
   </ion-list>

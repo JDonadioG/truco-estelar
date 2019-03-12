@@ -254,13 +254,17 @@ export class PointsPage {
  
   updateUsers(winners, losers, opts) {
     return new Promise((resolve, reject) => {
+      let users = winners.map(w => w.alias).concat(losers.map(l => l.alias));
+
       _.each(winners, u => {
         let history = u.history || [];
         history.push({
           isSixth: this.isSixth,
           sleepedOut: opts.sleepedOut,
-          score: { us: this.counterUs, them: this.counterThem },
+          result: { us: this.counterUs, them: this.counterThem },
+          score: opts.points + (opts.sleepedOut ? (this.isSixth ? 3 : 1) : 0),
           winners: true,
+          users,
           reward: this.reward * (opts.sleepedOut ? 2 : 1),
           updatedAt: _.now()
         });
@@ -282,7 +286,9 @@ export class PointsPage {
         history.push({
           isSixth: this.isSixth,
           sleepedOut: opts.sleepedOut,
-          score: { us: this.counterUs, them: this.counterThem },
+          result: { us: this.counterUs, them: this.counterThem },
+          score: opts.points + (opts.sleepedOut ? (this.isSixth ? 3 : 1) : 0),
+          users,
           winners: false,
           reward: this.reward * (opts.sleepedOut ? (-2) : (-1)),
           updatedAt: _.now()

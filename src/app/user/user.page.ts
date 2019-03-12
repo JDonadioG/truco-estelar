@@ -16,6 +16,7 @@ export class UserPage implements OnInit {
   public rankingUrl: string;
   public record: any;
   public photoURL: any;
+  public additionalInfoFor: any;
   public imageLoaded: boolean;
   private loading: any;
 
@@ -27,6 +28,7 @@ export class UserPage implements OnInit {
     private toastCtrl: ToastController
   ) {
     this.photoURL = null;
+    this.additionalInfoFor = {};
     this.imageLoaded = false;
     this.sharingService.currentUser.subscribe(user => {
       console.log(user);
@@ -78,11 +80,16 @@ export class UserPage implements OnInit {
     }
   }
 
-  private updateUser(url) {
+  private async updateUser(url) {
     try {
       this.db.object('users/' + this.user.key).update({ imgURL: url });
       this.loading.dismiss();
       this.imageLoaded = false;
+      const toast = await this.toastCtrl.create({
+        message: 'Imagen actualizada correctamente.',
+        duration: 2000
+      });
+      toast.present();
     } catch(err) {
       this.propagateError(err);
     }
