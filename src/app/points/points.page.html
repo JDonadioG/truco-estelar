@@ -15,59 +15,70 @@
 </ion-header>
 
 <ion-content>
-  <ion-row class="headers">
-    <ion-col text-center size="6">
-      <ion-row>
-        <ion-col *ngFor="let u of us.team" class="team">
-          {{u.alias}}
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col>Nosotros {{counterUs ? '(' + counterUs + ')' : ''}}</ion-col>
-      </ion-row>
-    </ion-col>
-    <ion-col text-center size="6">
-      <ion-row>
-        <ion-col *ngFor="let u of them.team" class="team">
-          {{u.alias}}
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col>Ellos {{counterThem ? '(' + counterThem + ')' : ''}}</ion-col>
-      </ion-row>
-    </ion-col>
-  </ion-row>
+  <ion-grid>
+    <ion-row class="headers">
+      <ion-col text-center size="6">
+        <ion-row>
+          <ion-col *ngFor="let u of us.team" class="team">
+            {{u.alias}}
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>Nosotros {{counterUs ? '(' + counterUs + ')' : ''}}</ion-col>
+        </ion-row>
+      </ion-col>
+      <ion-col text-center size="6">
+        <ion-row>
+          <ion-col *ngFor="let u of them.team" class="team">
+            {{u.alias}}
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>Ellos {{counterThem ? '(' + counterThem + ')' : ''}}</ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
   
-  <div class="points">
-    <div class="points-container" [ngClass]="{'is-sixth': isSixth}">
-      <!-- Malas -->
-      <div class="points-row">
-        <ion-col size="5"><ion-button fill="clear">{{us.row1 || ''}}</ion-button></ion-col>
-        <ion-col size="5"><ion-button fill="clear">{{them.row1 || ''}}</ion-button></ion-col>
+    <ion-row class="points">
+      <div class="points-container" [ngClass]="{'is-sixth': isSixth}">
+        <!-- Malas -->
+        <div class="points-row">
+          <ion-col size="5">
+            <div class="module">
+              <div class="palito palito-v" *ngIf="counterUs >= 1"><img src="assets/icon/palito.png" alt=""></div>
+              <div class="palito palito-h" *ngIf="counterUs >= 2"><img src="assets/icon/palito.png" alt=""></div>
+              <div class="palito palito-v" *ngIf="counterUs >= 3"><img src="assets/icon/palito.png" alt=""></div>
+              <div class="palito palito-h" *ngIf="counterUs >= 4"><img src="assets/icon/palito.png" alt=""></div>
+              <div class="palito palito-d" *ngIf="counterUs >= 5"><img src="assets/icon/palito.png" alt=""></div>
+            </div>
+          </ion-col>
+          <ion-col size="5"><ion-button fill="clear">{{them.row1 || ''}}</ion-button></ion-col>
+        </div>
+        <div class="points-row">
+          <ion-col size="5"><ion-button fill="clear">{{us.row2 || ''}}</ion-button></ion-col>
+          <ion-col size="5"><ion-button fill="clear">{{them.row2 || ''}}</ion-button></ion-col>
+        </div>
+        <div class="points-row" *ngIf="isSixth">
+          <ion-col size="5"><ion-button fill="clear">{{us.row3 || ''}}</ion-button></ion-col>
+          <ion-col size="5"><ion-button fill="clear">{{them.row3 || ''}}</ion-button></ion-col>
+        </div>
+        <!-- Buenas -->
+        <div class="points-row">
+          <ion-col size="5"><ion-button fill="clear">{{us.row4 || ''}}</ion-button></ion-col>
+          <ion-col size="5"><ion-button fill="clear">{{them.row4 || ''}}</ion-button></ion-col>
+        </div>
+        <div class="points-row">
+          <ion-col size="5"><ion-button fill="clear">{{us.row5 || ''}}</ion-button></ion-col>
+          <ion-col size="5"><ion-button fill="clear">{{them.row5 || ''}}</ion-button></ion-col>
+        </div>
+        <div class="points-row" *ngIf="isSixth">
+          <ion-col size="5"><ion-button fill="clear">{{us.row6 || ''}}</ion-button></ion-col>
+          <ion-col size="5"><ion-button fill="clear">{{them.row6 || ''}}</ion-button></ion-col>
+        </div>
       </div>
-      <div class="points-row">
-        <ion-col size="5"><ion-button fill="clear">{{us.row2 || ''}}</ion-button></ion-col>
-        <ion-col size="5"><ion-button fill="clear">{{them.row2 || ''}}</ion-button></ion-col>
-      </div>
-      <div class="points-row" *ngIf="isSixth">
-        <ion-col size="5"><ion-button fill="clear">{{us.row3 || ''}}</ion-button></ion-col>
-        <ion-col size="5"><ion-button fill="clear">{{them.row3 || ''}}</ion-button></ion-col>
-      </div>
-      <!-- Buenas -->
-      <div class="points-row">
-        <ion-col size="5"><ion-button fill="clear">{{us.row4 || ''}}</ion-button></ion-col>
-        <ion-col size="5"><ion-button fill="clear">{{them.row4 || ''}}</ion-button></ion-col>
-      </div>
-      <div class="points-row">
-        <ion-col size="5"><ion-button fill="clear">{{us.row5 || ''}}</ion-button></ion-col>
-        <ion-col size="5"><ion-button fill="clear">{{them.row5 || ''}}</ion-button></ion-col>
-      </div>
-      <div class="points-row" *ngIf="isSixth">
-        <ion-col size="5"><ion-button fill="clear">{{us.row6 || ''}}</ion-button></ion-col>
-        <ion-col size="5"><ion-button fill="clear">{{them.row6 || ''}}</ion-button></ion-col>
-      </div>
-    </div>
-  </div>
+    </ion-row>
+  </ion-grid>
+  
   <div class="vl"></div>
   <div class="hl"></div>
 </ion-content>
@@ -96,3 +107,36 @@
     </ion-col>
   </ion-row>
 </ion-footer>
+
+
+
+<!-- <div class="points">
+    <div class="points-container" [ngClass]="{'is-sixth': isSixth}">
+      <!-- Malas --
+      <div class="points-row">
+        <ion-col size="5"><ion-button fill="clear">{{us.row1 || ''}}</ion-button></ion-col>
+        <ion-col size="5"><ion-button fill="clear">{{them.row1 || ''}}</ion-button></ion-col>
+      </div>
+      <div class="points-row">
+        <ion-col size="5"><ion-button fill="clear">{{us.row2 || ''}}</ion-button></ion-col>
+        <ion-col size="5"><ion-button fill="clear">{{them.row2 || ''}}</ion-button></ion-col>
+      </div>
+      <div class="points-row" *ngIf="isSixth">
+        <ion-col size="5"><ion-button fill="clear">{{us.row3 || ''}}</ion-button></ion-col>
+        <ion-col size="5"><ion-button fill="clear">{{them.row3 || ''}}</ion-button></ion-col>
+      </div>
+      <!-- Buenas --
+      <div class="points-row">
+        <ion-col size="5"><ion-button fill="clear">{{us.row4 || ''}}</ion-button></ion-col>
+        <ion-col size="5"><ion-button fill="clear">{{them.row4 || ''}}</ion-button></ion-col>
+      </div>
+      <div class="points-row">
+        <ion-col size="5"><ion-button fill="clear">{{us.row5 || ''}}</ion-button></ion-col>
+        <ion-col size="5"><ion-button fill="clear">{{them.row5 || ''}}</ion-button></ion-col>
+      </div>
+      <div class="points-row" *ngIf="isSixth">
+        <ion-col size="5"><ion-button fill="clear">{{us.row6 || ''}}</ion-button></ion-col>
+        <ion-col size="5"><ion-button fill="clear">{{them.row6 || ''}}</ion-button></ion-col>
+      </div>
+    </div>
+  </div> -->
