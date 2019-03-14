@@ -1,13 +1,8 @@
-.create {
-  display: flex;
-  justify-content: space-between;
-  height: 20%;
-  .item-left {
-    margin: auto auto auto 20px;
-  }
-  .item-right {
-    margin: auto 20px auto;
-  }
+.banner {
+  margin-bottom: 1rem;
+  -webkit-box-shadow: 0px 8px 15px -10px var(--ion-color-primary);
+  -moz-box-shadow: 0px 8px 15px -10px var(--ion-color-primary);
+  box-shadow: 0px 8px 15px -10px var(--ion-color-primary);
 }
 .score {
   color: darkgrey;
