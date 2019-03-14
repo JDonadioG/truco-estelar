@@ -37,7 +37,7 @@ export class GamePage implements OnInit {
   ngOnInit() {
     this.sharingService.currentUsers.subscribe(users => {
       this.zone.run(() => {
-        this.users = _.clone(users);
+        this.users = _.orderBy(_.clone(users), ['alias'],['asc']);
       });
     });
   }
@@ -91,7 +91,6 @@ export class GamePage implements OnInit {
   }
 
   async setUserName() {
-    console.log(this.secondTeam[this.isSixth ? 5 : 3])
     if (this.secondTeam[this.isSixth ? 2 : 1]) return;
     
     const alert = await this.alertCtrl.create({
