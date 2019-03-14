@@ -46,21 +46,21 @@
     </div>
 
     <div class="history" *ngFor="let h of user.history; let i = index" (click)="additionalInfoFor[i] = !additionalInfoFor[i]">
-      <div class="note"><ion-note>{{h.updatedAt | date : 'dd/MM/yyyy h:mm a'}}</ion-note></div>
       <div class="info" [ngClass]="{'winners': h.winners}">
-        <div class="game-type">{{h.isSixth ? '6to' : '4to'}}</div>
-        <div class="status">{{h.winners ? 'G' : 'P'}}</div>
-        <div class="result">{{h.result.us}} - {{h.result.them}}</div>
-        <div class="reward" [ngClass]="{'winners': h.reward > 0, 'losers': h.reward < 0}">${{h.reward}}</div>
+        <div class="game-type" [ngClass]="{'loser': !h.winners}"><div>{{h.isSixth ? '6to' : '4to'}}</div></div>
+        <div class="status"><div>{{h.winners ? 'G' : 'P'}}</div></div>
+        <div class="result"><div>{{h.result.us}} - {{h.result.them}}</div></div>
+        <div class="time"><div>{{h.updatedAt | date : 'dd/MM/yyyy h:mm a'}}</div></div>
       </div>
       <div class="additional-info" *ngIf="additionalInfoFor[i]">
         <div class="users">
           <div *ngFor="let u of h.users">{{u}}</div>
         </div>
         <div class="details">
-          <div>Puntos por mesa: {{h.isSixth ? '10' : '5'}}</div>
-          <div>Durmieron: {{h.sleepedOut ? 'afuera' : 'adentro'}}</div>
-          <div>Plus: {{h.isSixth ? '3' : '1'}}</div>
+          <div>Puntos: {{h.isSixth ? '10' : '5'}}</div>
+          <div *ngIf="h.sleepedOut">Afuera: {{h.isSixth ? '3' : '1'}}</div>
+          <div *ngIf="!h.sleepedOut">Entraron: 0</div>
+          <div>Guita: {{h.reward < 0 ? '-$' + h.reward * (-1) : '$'+ h.reward}}</div>
           <div>Total: {{h.score}}</div>
         </div>
       </div>

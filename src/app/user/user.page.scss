@@ -54,10 +54,28 @@
     color: red;
     display: flex;
     justify-content: space-between;
-    margin: 15px;
+    margin: 10px;
+    align-items: center;
     .reward {
       width: 60px;
       text-align: right;
+    }
+    .game-type {
+      border: 1px solid;
+      border-radius: 3px;
+      padding: 2px;
+    }
+    .status {
+      width: 15px;
+      text-align: center;
+    }
+    .result {
+      width: 60px;
+      text-align: center;
+    }
+    .time {
+      color: darkgrey;
+      font-size: 12px;
     }
   }
   .note {
