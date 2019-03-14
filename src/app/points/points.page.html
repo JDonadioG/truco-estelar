@@ -27,7 +27,7 @@
           <ion-col>Nosotros {{counterUs ? '(' + counterUs + ')' : ''}}</ion-col>
         </ion-row>
       </ion-col>
-      <ion-col text-center size="6">
+      <ion-col text-center size="6" (click)="isSixth = !isSixth">
         <ion-row>
           <ion-col *ngFor="let u of them.team" class="team">
             {{u.alias}}
@@ -40,47 +40,136 @@
     </ion-row>
   
     <ion-row class="points">
-      <div class="points-container" [ngClass]="{'is-sixth': isSixth}">
+      <div class="points-container">
         <!-- Malas -->
-        <div class="points-row">
+        <div class="points-row"><!-- 0-5 -->
           <ion-col size="5">
             <div class="module">
               <div class="palito palito-v" *ngIf="counterUs >= 1"><img src="assets/icon/palito.png" alt=""></div>
-              <div class="palito palito-h" *ngIf="counterUs >= 2"><img src="assets/icon/palito.png" alt=""></div>
+              <div class="palito palito-h r0" *ngIf="counterUs >= 2"><img src="assets/icon/palito.png" alt=""></div>
               <div class="palito palito-v" *ngIf="counterUs >= 3"><img src="assets/icon/palito.png" alt=""></div>
-              <div class="palito palito-h" *ngIf="counterUs >= 4"><img src="assets/icon/palito.png" alt=""></div>
+              <div class="palito palito-h l0" *ngIf="counterUs >= 4"><img src="assets/icon/palito.png" alt=""></div>
               <div class="palito palito-d" *ngIf="counterUs >= 5"><img src="assets/icon/palito.png" alt=""></div>
             </div>
           </ion-col>
-          <ion-col size="5"><ion-button fill="clear">{{them.row1 || ''}}</ion-button></ion-col>
+          <ion-col size="5">
+            <div class="module">
+              <div class="palito palito-v" *ngIf="counterThem >= 1"><img src="assets/icon/palito.png" alt=""></div>
+              <div class="palito palito-h r0" *ngIf="counterThem >= 2"><img src="assets/icon/palito.png" alt=""></div>
+              <div class="palito palito-v" *ngIf="counterThem >= 3"><img src="assets/icon/palito.png" alt=""></div>
+              <div class="palito palito-h l0" *ngIf="counterThem >= 4"><img src="assets/icon/palito.png" alt=""></div>
+              <div class="palito palito-d" *ngIf="counterThem >= 5"><img src="assets/icon/palito.png" alt=""></div>
+            </div>
+          </ion-col>
         </div>
-        <div class="points-row">
-          <ion-col size="5"><ion-button fill="clear">{{us.row2 || ''}}</ion-button></ion-col>
-          <ion-col size="5"><ion-button fill="clear">{{them.row2 || ''}}</ion-button></ion-col>
+        <div class="points-row"><!-- 5-10 -->
+          <ion-col size="5">
+            <div class="module">
+              <div class="palito palito-v" *ngIf="counterUs >= 6"><img src="assets/icon/palito.png" alt=""></div>
+              <div class="palito palito-h r0" *ngIf="counterUs >= 7"><img src="assets/icon/palito.png" alt=""></div>
+              <div class="palito palito-v" *ngIf="counterUs >= 8"><img src="assets/icon/palito.png" alt=""></div>
+              <div class="palito palito-h l0" *ngIf="counterUs >= 9"><img src="assets/icon/palito.png" alt=""></div>
+              <div class="palito palito-d" *ngIf="counterUs >= 10 && isSixth"><img src="assets/icon/palito.png" alt=""></div>
+            </div>
+          </ion-col>
+          <ion-col size="5">
+            <div class="module">
+              <div class="palito palito-v" *ngIf="counterThem >= 6"><img src="assets/icon/palito.png" alt=""></div>
+              <div class="palito palito-h r0" *ngIf="counterThem >= 7"><img src="assets/icon/palito.png" alt=""></div>
+              <div class="palito palito-v" *ngIf="counterThem >= 8"><img src="assets/icon/palito.png" alt=""></div>
+              <div class="palito palito-h l0" *ngIf="counterThem >= 9"><img src="assets/icon/palito.png" alt=""></div>
+              <div class="palito palito-d" *ngIf="counterThem >= 10 && isSixth"><img src="assets/icon/palito.png" alt=""></div>
+            </div>
+          </ion-col>
         </div>
-        <div class="points-row" *ngIf="isSixth">
-          <ion-col size="5"><ion-button fill="clear">{{us.row3 || ''}}</ion-button></ion-col>
-          <ion-col size="5"><ion-button fill="clear">{{them.row3 || ''}}</ion-button></ion-col>
+        <div class="hl" *ngIf="!isSixth"></div>
+        <div class="points-row"><!-- 10-15 -->
+          <ion-col size="5">
+            <div class="module">
+              <div class="palito palito-v" *ngIf="counterUs >= (isSixth ? 11 : 10)"><img src="assets/icon/palito.png" alt=""></div>
+              <div class="palito palito-h r0" *ngIf="counterUs >= (isSixth ? 12 : 11)"><img src="assets/icon/palito.png" alt=""></div>
+              <div class="palito palito-v" *ngIf="counterUs >= (isSixth ? 13 : 12)"><img src="assets/icon/palito.png" alt=""></div>
+              <div class="palito palito-h l0" *ngIf="counterUs >= (isSixth ? 14 : 13)"><img src="assets/icon/palito.png" alt=""></div>
+              <div class="palito palito-d" *ngIf="counterUs >= (isSixth ? 15 : 14)"><img src="assets/icon/palito.png" alt=""></div>
+            </div>
+          </ion-col>
+          <ion-col size="5">
+            <div class="module">
+              <div class="palito palito-v" *ngIf="counterThem >= (isSixth ? 11 : 10)"><img src="assets/icon/palito.png" alt=""></div>
+              <div class="palito palito-h r0" *ngIf="counterThem >= (isSixth ? 12 : 11)"><img src="assets/icon/palito.png" alt=""></div>
+              <div class="palito palito-v" *ngIf="counterThem >= (isSixth ? 13 : 12)"><img src="assets/icon/palito.png" alt=""></div>
+              <div class="palito palito-h l0" *ngIf="counterThem >= (isSixth ? 14 : 13)"><img src="assets/icon/palito.png" alt=""></div>
+              <div class="palito palito-d" *ngIf="counterThem >= (isSixth ? 15 : 14)"><img src="assets/icon/palito.png" alt=""></div>
+            </div>
+          </ion-col>
         </div>
+        <div class="hl" *ngIf="isSixth"></div>
         <!-- Buenas -->
-        <div class="points-row">
-          <ion-col size="5"><ion-button fill="clear">{{us.row4 || ''}}</ion-button></ion-col>
-          <ion-col size="5"><ion-button fill="clear">{{them.row4 || ''}}</ion-button></ion-col>
+        <div class="points-row"><!-- 15-20 -->
+          <ion-col size="5">
+            <div class="module">
+              <div class="palito palito-v" *ngIf="counterUs >= (isSixth ? 16 : 15)"><img src="assets/icon/palito.png" alt=""></div>
+              <div class="palito palito-h r0" *ngIf="counterUs >= (isSixth ? 17 : 16)"><img src="assets/icon/palito.png" alt=""></div>
+              <div class="palito palito-v" *ngIf="counterUs >= (isSixth ? 18 : 17)"><img src="assets/icon/palito.png" alt=""></div>
+              <div class="palito palito-h l0" *ngIf="counterUs >= (isSixth ? 19 : 18)"><img src="assets/icon/palito.png" alt=""></div>
+              <div class="palito palito-d" *ngIf="counterUs >= (isSixth ? 20 : 19)"><img src="assets/icon/palito.png" alt=""></div>
+            </div>
+          </ion-col>
+          <ion-col size="5">
+            <div class="module">
+              <div class="palito palito-v" *ngIf="counterThem >= (isSixth ? 16 : 15)"><img src="assets/icon/palito.png" alt=""></div>
+              <div class="palito palito-h r0" *ngIf="counterThem >= (isSixth ? 17 : 16)"><img src="assets/icon/palito.png" alt=""></div>
+              <div class="palito palito-v" *ngIf="counterThem >= (isSixth ? 18 : 17)"><img src="assets/icon/palito.png" alt=""></div>
+              <div class="palito palito-h l0" *ngIf="counterThem >= (isSixth ? 19 : 18)"><img src="assets/icon/palito.png" alt=""></div>
+              <div class="palito palito-d" *ngIf="counterThem >= (isSixth ? 20 : 19)"><img src="assets/icon/palito.png" alt=""></div>
+            </div>
+          </ion-col>
         </div>
-        <div class="points-row">
-          <ion-col size="5"><ion-button fill="clear">{{us.row5 || ''}}</ion-button></ion-col>
-          <ion-col size="5"><ion-button fill="clear">{{them.row5 || ''}}</ion-button></ion-col>
+        <div class="points-row" *ngIf="isSixth"><!-- 20-25 -->
+          <ion-col size="5">
+            <div class="module">
+              <div class="palito palito-v" *ngIf="counterUs >= 21"><img src="assets/icon/palito.png" alt=""></div>
+              <div class="palito palito-h r0" *ngIf="counterUs >= 22"><img src="assets/icon/palito.png" alt=""></div>
+              <div class="palito palito-v" *ngIf="counterUs >= 23"><img src="assets/icon/palito.png" alt=""></div>
+              <div class="palito palito-h l0" *ngIf="counterUs >= 24"><img src="assets/icon/palito.png" alt=""></div>
+              <div class="palito palito-d" *ngIf="counterUs >= 25 && isSixth"><img src="assets/icon/palito.png" alt=""></div>
+            </div>
+          </ion-col>
+          <ion-col size="5">
+            <div class="module">
+              <div class="palito palito-v" *ngIf="counterThem >= 21"><img src="assets/icon/palito.png" alt=""></div>
+              <div class="palito palito-h r0" *ngIf="counterThem >= 22"><img src="assets/icon/palito.png" alt=""></div>
+              <div class="palito palito-v" *ngIf="counterThem >= 23"><img src="assets/icon/palito.png" alt=""></div>
+              <div class="palito palito-h l0" *ngIf="counterThem >= 24"><img src="assets/icon/palito.png" alt=""></div>
+              <div class="palito palito-d" *ngIf="counterThem >= 25 && isSixth"><img src="assets/icon/palito.png" alt=""></div>
+            </div>
+          </ion-col>
         </div>
-        <div class="points-row" *ngIf="isSixth">
-          <ion-col size="5"><ion-button fill="clear">{{us.row6 || ''}}</ion-button></ion-col>
-          <ion-col size="5"><ion-button fill="clear">{{them.row6 || ''}}</ion-button></ion-col>
+        <div class="points-row" *ngIf="isSixth"><!-- 25-30 -->
+          <ion-col size="5">
+            <div class="module">
+              <div class="palito palito-v" *ngIf="counterUs >= 26"><img src="assets/icon/palito.png" alt=""></div>
+              <div class="palito palito-h r0" *ngIf="counterUs >= 27"><img src="assets/icon/palito.png" alt=""></div>
+              <div class="palito palito-v" *ngIf="counterUs >= 28"><img src="assets/icon/palito.png" alt=""></div>
+              <div class="palito palito-h l0" *ngIf="counterUs >= 29"><img src="assets/icon/palito.png" alt=""></div>
+              <div class="palito palito-d" *ngIf="counterUs >= 30"><img src="assets/icon/palito.png" alt=""></div>
+            </div>
+          </ion-col>
+          <ion-col size="5">
+            <div class="module">
+              <div class="palito palito-v" *ngIf="counterThem >= 26"><img src="assets/icon/palito.png" alt=""></div>
+              <div class="palito palito-h r0" *ngIf="counterThem >= 27"><img src="assets/icon/palito.png" alt=""></div>
+              <div class="palito palito-v" *ngIf="counterThem >= 28"><img src="assets/icon/palito.png" alt=""></div>
+              <div class="palito palito-h l0" *ngIf="counterThem >= 29"><img src="assets/icon/palito.png" alt=""></div>
+              <div class="palito palito-d" *ngIf="counterThem >= 30"><img src="assets/icon/palito.png" alt=""></div>
+            </div>
+          </ion-col>
         </div>
       </div>
     </ion-row>
   </ion-grid>
   
   <div class="vl"></div>
-  <div class="hl"></div>
 </ion-content>
 
 <ion-footer>
@@ -107,36 +196,3 @@
     </ion-col>
   </ion-row>
 </ion-footer>
-
-
-
-<!-- <div class="points">
-    <div class="points-container" [ngClass]="{'is-sixth': isSixth}">
-      <!-- Malas --
-      <div class="points-row">
-        <ion-col size="5"><ion-button fill="clear">{{us.row1 || ''}}</ion-button></ion-col>
-        <ion-col size="5"><ion-button fill="clear">{{them.row1 || ''}}</ion-button></ion-col>
-      </div>
-      <div class="points-row">
-        <ion-col size="5"><ion-button fill="clear">{{us.row2 || ''}}</ion-button></ion-col>
-        <ion-col size="5"><ion-button fill="clear">{{them.row2 || ''}}</ion-button></ion-col>
-      </div>
-      <div class="points-row" *ngIf="isSixth">
-        <ion-col size="5"><ion-button fill="clear">{{us.row3 || ''}}</ion-button></ion-col>
-        <ion-col size="5"><ion-button fill="clear">{{them.row3 || ''}}</ion-button></ion-col>
-      </div>
-      <!-- Buenas --
-      <div class="points-row">
-        <ion-col size="5"><ion-button fill="clear">{{us.row4 || ''}}</ion-button></ion-col>
-        <ion-col size="5"><ion-button fill="clear">{{them.row4 || ''}}</ion-button></ion-col>
-      </div>
-      <div class="points-row">
-        <ion-col size="5"><ion-button fill="clear">{{us.row5 || ''}}</ion-button></ion-col>
-        <ion-col size="5"><ion-button fill="clear">{{them.row5 || ''}}</ion-button></ion-col>
-      </div>
-      <div class="points-row" *ngIf="isSixth">
-        <ion-col size="5"><ion-button fill="clear">{{us.row6 || ''}}</ion-button></ion-col>
-        <ion-col size="5"><ion-button fill="clear">{{them.row6 || ''}}</ion-button></ion-col>
-      </div>
-    </div>
-  </div> -->

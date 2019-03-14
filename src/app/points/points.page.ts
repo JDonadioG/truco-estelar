@@ -45,6 +45,7 @@ export class PointsPage {
     private toastCtrl: ToastController
   ) {
     this.init();
+    // this.isSixth = true;
   }
 
   init() {
